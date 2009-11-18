@@ -61,8 +61,15 @@
       </classpath>
     </javac>
   </target>
+	
+  <target name="copy-core" depends="compile-core" description="copy images etc from the src-core to the classes-core directory" >
+    <echo>Copying core images etc to classes directory...</echo>
+    <copy todir="${core.classes.dir}">
+      <fileset dir="${core.src.dir}" includes="**/*.xml **/*.xsl **/*properties"/>
+    </copy>
+  </target>
 
-  <target name="jar" depends="compile-core" description="generate the project jar">
+  <target name="jar" depends="copy-core" description="generate the project jar">
 		  	<echo>Generating the Kettle-VFS library kettle-vfs.jar ...</echo>
 		  	<jar jarfile="${distrib.dir}/kettle-vfs.jar" 
 		    	 basedir="${core.classes.dir}" 
@@ -71,8 +78,7 @@
 		  		>
 	          <manifest>
 	              <attribute name="Implementation-Title" value="Kettle-VFS" />
-	              <attribute name="Implementation-Version" value="SNAPSHOT" />
-	              <attribute name="Specification-Version" value="0.1" />
+	              <attribute name="Implementation-Version" value="20091118" />
 	              <attribute name="Implementation-Vendor" value="Pentaho Inc." />
 				  <attribute name="Implementation-ProductID" value="Kettle-VFS" />
 	              <attribute name="Compile-Timestamp" value="${compile.timestamp}" />
