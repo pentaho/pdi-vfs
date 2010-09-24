@@ -78,7 +78,7 @@
 		  		>
 	          <manifest>
 	              <attribute name="Implementation-Title" value="Kettle-VFS" />
-	              <attribute name="Implementation-Version" value="20091118" />
+	              <attribute name="Implementation-Version" value="20100924" />
 	              <attribute name="Implementation-Vendor" value="Pentaho Inc." />
 				  <attribute name="Implementation-ProductID" value="Kettle-VFS" />
 	              <attribute name="Compile-Timestamp" value="${compile.timestamp}" />
