@@ -31,10 +31,7 @@ import org.apache.commons.vfs.provider.UriParser;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -52,6 +49,7 @@ public class ZipFileSystem
 
     private final File file;
     private ZipFile zipFile;
+    private Map<FileName, FileObject> cache = new HashMap<FileName, FileObject>();
 
     public ZipFileSystem(final FileName rootName,
                          final FileObject parentLayer,
@@ -193,6 +191,44 @@ public class ZipFileSystem
     {
         // This is only called for files which do not exist in the Zip file
         return new ZipFileObject(name, null, this, false);
+    }
+
+
+    /**
+     * Adds a file object to the cache.
+     */
+    protected void putFileToCache(final FileObject file)
+    {
+        if (file != null) {
+            synchronized (cache) {
+                cache.put(file.getName(), file);
+            }
+        }
+    }
+
+    /**
+     * Returns a cached file.
+     */
+    protected FileObject getFileFromCache(final FileName name)
+    {
+        if (name == null) {
+            return null;
+        }
+        synchronized (cache) {
+            return cache.get(name);
+        }
+    }
+
+    /**
+     * remove a cached file.
+     */
+    protected void removeFileFromCache(final FileName name)
+    {
+        if (name != null) {
+            synchronized (cache) {
+                cache.remove(name);
+            }
+        }
     }
 
     /**
