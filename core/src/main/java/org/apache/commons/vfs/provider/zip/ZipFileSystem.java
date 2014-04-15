@@ -168,9 +168,14 @@ public class ZipFileSystem
   /**
    * Creates a file object.
    */
+  @Override
   protected FileObject createFile( final FileName name ) throws FileSystemException {
-    // This is only called for files which do not exist in the Zip file
-    return new ZipFileObject( name, null, this, false );
+    String path = UriParser.encode(name.getPath());
+    if (path.startsWith("/"))
+      path = path.substring(1);
+    ZipEntry zipEntry = new ZipEntry(path);
+    FileName rootName = getFileSystemManager().resolveName(getRootName(), path);
+    return new ZipFileObject(rootName, zipEntry, this, true);
   }
 
 
