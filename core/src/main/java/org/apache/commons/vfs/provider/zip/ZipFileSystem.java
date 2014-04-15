@@ -170,7 +170,7 @@ public class ZipFileSystem
    */
   @Override
   protected FileObject createFile( final FileName name ) throws FileSystemException {
-    String path = UriParser.encode(paramFileName.getPath());
+    String path = UriParser.encode(name.getPath());
     if (path.startsWith("/"))
       path = path.substring(1);
     ZipEntry zipEntry = new ZipEntry(path);
